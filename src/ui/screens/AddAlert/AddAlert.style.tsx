@@ -1,5 +1,20 @@
 import {StyleSheet} from 'react-native';
+import {DesignTokens} from '../../theme';
 
-const styles = StyleSheet.create({});
+const AddAlertStyles = StyleSheet.create({
+  container: {
+    paddingHorizontal: DesignTokens.margin.mid,
+    marginBottom: DesignTokens.margin.sm,
+    flex: 1,
+    flexGrow: 1,
+    justifyContent: 'center',
+  },
 
-export default styles;
+  subContainer: {
+    flex: 1,
+    paddingHorizontal: DesignTokens.margin.mid,
+    paddingTop: DesignTokens.margin.lg,
+  },
+});
+
+export default AddAlertStyles;

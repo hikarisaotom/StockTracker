@@ -15,7 +15,7 @@ const routes: Array<React.ComponentProps<typeof Tab.Screen>> = [
       tabBarLabel: tabsStrings.tabs.first,
       headerShown: false,
       tabBarIcon: ({color, size}) => (
-        <Icon name="add-circle" size={30} color="#900" />
+        <Icon name="access-alarm" size={20} color="#900" />
       ),
     },
   },
@@ -26,7 +26,7 @@ const routes: Array<React.ComponentProps<typeof Tab.Screen>> = [
       tabBarLabel: tabsStrings.tabs.second,
       headerShown: false,
       tabBarIcon: ({color, size}) => (
-        <Icon name="add-circle" size={30} color="#900" />
+        <Icon name="favorite" size={20} color="#900" />
       ),
     },
   },
@@ -37,7 +37,7 @@ const routes: Array<React.ComponentProps<typeof Tab.Screen>> = [
       tabBarLabel: tabsStrings.tabs.third,
       headerShown: false,
       tabBarIcon: ({color, size}) => (
-        <Icon name="add-circle" size={30} color="#900" />
+        <Icon name="bar-chart" size={20} color="#900" />
       ),
     },
   },
@@ -45,7 +45,14 @@ const routes: Array<React.ComponentProps<typeof Tab.Screen>> = [
 
 const BottomTabNavigator = () => {
   return (
-    <Tab.Navigator initialRouteName="AddAlert" screenOptions={{}}>
+    <Tab.Navigator
+      initialRouteName="AddAlert"
+      screenOptions={{
+        tabBarLabelStyle: {
+          fontSize: 16,
+          fontWeight: 'bold',
+        },
+      }}>
       {routes.map(routeConfig => (
         <Tab.Screen key={routeConfig.name} {...routeConfig} />
       ))}
