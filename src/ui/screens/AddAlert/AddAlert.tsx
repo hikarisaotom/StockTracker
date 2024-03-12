@@ -14,11 +14,13 @@ import Loader from '../../components/atoms/Loader/Loader';
 import defaultStrings from '../../../localization/default';
 import {API_KEY} from 'react-native-dotenv';
 import AddAlertStyles from './AddAlert.style';
-import { getnumericValueInputProps } from '../../forms';
+import {getnumericValueInputProps} from '../../forms';
+import InformationCard from '../../components/molecules/InformationCard';
 function AddAlert() {
   const isDarkMode = useColorScheme() === 'dark';
   const [symbol, setSymbol] = useState<string | null>(null);
-  const [price, setPrice] = useState<string | null>(null);
+  const [item, setItem] = useState<any | null>(null);
+  const [price, setPrice] = useState<number | null>(0);
   const [priceInputError, setPriceInputError] = useState<string | null>(null);
   const [symbols, setSymbols] = useState([]);
   const [loading, setIsLoading] = useState(false);
@@ -67,7 +69,16 @@ function AddAlert() {
           valueToDisplay="description"
           valueToSave="symbol"
         />
-        <CustomButton text={defaultStrings.button.subscribe} />
+        <CustomButton
+          text={defaultStrings.button.subscribe}
+          onPress={() => {
+            const result = symbols.find(item => item.symbol === symbol);
+            setItem(result);
+            console.log(result);
+          }}
+        />
+
+        {item && <InformationCard alertPrice={price} symbol={item?.symbol} />}
       </ScrollView>
     );
   };
