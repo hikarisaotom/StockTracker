@@ -1,9 +1,10 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {View, Text} from 'react-native';
 import {informationCardStyles} from './InformationCard.style';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import {DesignTokens} from '../../../theme';
 import {WatchListItem} from '../../../../data/store/types/types';
+import { API_KEY } from 'react-native-dotenv';
 const InformationCard = ({symbol, price}: WatchListItem) => {
   const [currentValue, setCurrentValue] = useState(0);
   const [marginChange, setMarginChange] = useState(0);
@@ -11,6 +12,44 @@ const InformationCard = ({symbol, price}: WatchListItem) => {
   const [name, setName] = useState('');
   const cardBgColor = '#8FBC8F';
   const styles = informationCardStyles;
+
+  useEffect(() => {
+    const socket = new WebSocket('wss://ws.finnhub.io?token=' + API_KEY); // Coloca tu clave de API de Finnhub aquí
+
+    const subscribeToSymbols = () => {
+      socket.send(JSON.stringify({type: 'subscribe', symbol: 'AAPL'}));
+      socket.send(
+        JSON.stringify({type: 'subscribe', symbol: 'BINANCE:BTCUSDT'}),
+      );
+      socket.send(JSON.stringify({type: 'subscribe', symbol: 'IC MARKETS:1'}));
+    };
+
+    const handleMessage = (event: any) => {
+      console.log('Message from server:',event);
+    };
+
+    const handleSocketError = (error: any) => {
+      console.error('WebSocket error:', error);
+    };
+
+    // Abre la conexión y suscríbete a los símbolos cuando la conexión se establezca
+    socket.addEventListener('open', subscribeToSymbols);
+
+    // Escucha los mensajes del servidor
+    socket.addEventListener('message', handleMessage);
+
+    // Maneja errores del socket
+    socket.addEventListener('error', handleSocketError);
+
+    // Limpia los listeners y cierra el socket al desmontar el componente
+    return () => {
+      socket.removeEventListener('open', subscribeToSymbols);
+      socket.removeEventListener('message', handleMessage);
+      socket.removeEventListener('error', handleSocketError);
+      socket.close();
+    };
+  }, []);
+
   return (
     <View style={[styles.card, {backgroundColor: cardBgColor}]}>
       <Text style={styles.title}>
