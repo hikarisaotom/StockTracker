@@ -1,11 +1,11 @@
 import React, {useState} from 'react';
 import {View, Text} from 'react-native';
-import { informationCardStyles } from './InformationCard.style';
+import {informationCardStyles} from './InformationCard.style';
 import Icon from 'react-native-vector-icons/MaterialIcons';
-import { DesignTokens } from '../../theme';
+import {DesignTokens} from '../../theme';
 interface InformationCardProps {
   symbol: string;
-  alertPrice?: number;
+  alertPrice?: number | undefined;
 }
 const InformationCard = ({
   symbol,
@@ -14,15 +14,14 @@ const InformationCard = ({
   const [currentValue, setCurrentValue] = useState(0);
   const [marginChange, setMarginChange] = useState(0);
   const [change, setChange] = useState(0);
-  // Determina el color de fondo en función del valor actual de la acción en comparación con el precio de alerta
-  const cardBgColor =
-    alertPrice !== undefined && currentValue > alertPrice
-      ? '#8FBC8F'
-      : '#FA8072';
+  const [name, setName] = useState('');
+  const cardBgColor = '#8FBC8F';
   const styles = informationCardStyles;
   return (
     <View style={[styles.card, {backgroundColor: cardBgColor}]}>
-      <Text style={styles.title}>{symbol}</Text>
+      <Text style={styles.title}>
+        {symbol} {name}
+      </Text>
       <Text style={styles.text}>
         Price / Value:{' '}
         <Text style={styles.bold}>${currentValue.toFixed(2)}</Text>
@@ -42,13 +41,10 @@ const InformationCard = ({
           % (${change.toFixed(2)})
         </Text>
       </Text>
-      {alertPrice !== undefined ? (
+      {alertPrice && (
         <Text style={styles.text}>
-          Alert Price: <Text style={styles.bold}>${alertPrice.toFixed(2)}</Text>
-        </Text>
-      ) : (
-        <Text style={[styles.text, {color: '#A9A9A9'}]}>
-          Alert Price: <Text style={styles.bold}>N/A</Text>
+          Alert Price:{' '}
+          <Text style={styles.bold}>${Math.round(alertPrice * 100) / 100}</Text>
         </Text>
       )}
     </View>

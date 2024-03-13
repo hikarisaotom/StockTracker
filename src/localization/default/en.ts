@@ -4,7 +4,7 @@ export default {
     search: 'Search...',
   },
   button: {
-    subscribe: 'Subscribe',
+    subscribe: 'Add To Watchlist',
   },
   error: {
     required: 'This is a required field',

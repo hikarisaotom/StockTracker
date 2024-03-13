@@ -21,7 +21,7 @@ export const buttonStyles = () =>
       color: DesignTokens.color.white,
     },
     buttonDisabled: {
-      backgroundColor: DesignTokens.color.white,
+      backgroundColor: DesignTokens.color.disabled,
     },
     buttonContainer: {
       flexDirection: 'row',

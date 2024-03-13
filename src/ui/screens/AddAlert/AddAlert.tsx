@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import {
   SafeAreaView,
   ScrollView,
@@ -16,10 +16,10 @@ import {API_KEY} from 'react-native-dotenv';
 import AddAlertStyles from './AddAlert.style';
 import {getnumericValueInputProps} from '../../forms';
 import InformationCard from '../../components/molecules/InformationCard';
+import {AppContext} from '../../../data/store/Context';
 function AddAlert() {
   const isDarkMode = useColorScheme() === 'dark';
   const [symbol, setSymbol] = useState<string | null>(null);
-  const [item, setItem] = useState<any | null>(null);
   const [price, setPrice] = useState<number | null>(0);
   const [priceInputError, setPriceInputError] = useState<string | null>(null);
   const [symbols, setSymbols] = useState([]);
@@ -27,6 +27,7 @@ function AddAlert() {
   const backgroundStyle = {
     backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
   };
+  const {addToWatchList} = useContext(AppContext);
 
   const styles = AddAlertStyles;
   useEffect(() => {
@@ -47,6 +48,15 @@ function AddAlert() {
     fetchSymbols();
   }, []);
 
+  const isButtonDisabled = () => {
+    return symbol == null || (price ?? '').toString().length <= 0;
+  };
+
+  useEffect(() => {
+    if ((price ?? '').toString().length <= 0) {
+      setSymbol(null);
+    }
+  }, [price]);
   const form = () => {
     return (
       <ScrollView
@@ -71,14 +81,18 @@ function AddAlert() {
         />
         <CustomButton
           text={defaultStrings.button.subscribe}
+          disabled={isButtonDisabled()}
           onPress={() => {
-            const result = symbols.find(item => item.symbol === symbol);
-            setItem(result);
-            console.log(result);
+            addToWatchList({
+              price: price ?? 0,
+              symbol: symbol ?? '',
+            });
           }}
         />
 
-        {item && <InformationCard alertPrice={price} symbol={item?.symbol} />}
+        {symbol && price && (
+          <InformationCard alertPrice={price} symbol={symbol} />
+        )}
       </ScrollView>
     );
   };
