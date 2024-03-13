@@ -7,7 +7,6 @@ interface chartCardProps {
 }
 
 const Chart = ({data}: chartCardProps) => {
-  console.log('[GRAPHS]', data?.history);
   const chartConfig = {
     backgroundGradientFrom: '#fff',
     backgroundGradientTo: '#fff',
@@ -40,10 +39,13 @@ const Chart = ({data}: chartCardProps) => {
         datasets: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
       };
     }
-    const labels = validData.map(item => convertNumbers(item.p ?? 0));
+    const labels = validData.map(item => item.t ?? 0);
     const datasets = [
       {
         data: validData.map((item, index) => (index % 2 === 0 ? item.p : '')),
+        labels: validData.map((item, index) =>
+          index % 2 === 0 ? convertNumbers(item.p ?? 0) : '',
+        ),
         color: (opacity = 1) => `rgba(0, 0, 255, ${opacity})`,
         strokeWidth: 2,
       },
@@ -52,7 +54,7 @@ const Chart = ({data}: chartCardProps) => {
     return {
       labels,
       datasets,
-      legend: ['Historical Prices for ' + (data.symbol ?? '')],
+      legend: ['PRICES FOR' + (data.symbol ?? '')],
     };
   };
   function convertNumbers(number) {

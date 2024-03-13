@@ -1,4 +1,4 @@
-import React, {useContext, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import {ScrollView} from 'react-native';
 import {WatchListItem} from '../../../../data/store/types/types';
 import {AppContext} from '../../../../data/store/Context';
@@ -14,14 +14,21 @@ const AlertForm = ({symbols}: {symbols: any[]}) => {
   const [symbol, setSymbol] = useState<string | null>(null);
   const [price, setPrice] = useState<number | null>(0);
   const [priceInputError, setPriceInputError] = useState<string | null>(null);
-  const [lastAdded, setLastAdded] = useState<WatchListItem | null>();
+  const [lastAdded, setLastAdded] = useState<WatchListItem | undefined>(
+    undefined,
+  );
 
-  const {addToWatchList} = useContext(AppContext);
-
+  const {watchList, addToWatchList} = useContext(AppContext);
   const styles = AddAlertFormStyles;
   const isButtonDisabled = () => {
     return symbol == null || (price ?? '').toString().length <= 0;
   };
+  useEffect(() => {
+    setLastAdded(
+      watchList.find(item => item.symbol === symbol?.toString() ?? ''),
+    );
+  }, [symbol, watchList]);
+
   const setAlert = () => {
     let item: WatchListItem = {
       price: price ?? 0,
@@ -30,7 +37,6 @@ const AlertForm = ({symbols}: {symbols: any[]}) => {
       currentValue: 0,
       history: [],
     };
-    setLastAdded(item);
     addToWatchList(item);
   };
   return (
@@ -60,7 +66,9 @@ const AlertForm = ({symbols}: {symbols: any[]}) => {
         onPress={setAlert}
       />
 
-      {/* {lastAdded && <InformationCard stock={lastAdded} />} */}
+      {watchList.length > 0 && lastAdded && (
+        <InformationCard stock={lastAdded} />
+      )}
     </ScrollView>
   );
 };

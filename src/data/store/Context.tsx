@@ -99,9 +99,10 @@ export const ContextProvider = ({ children }: any) => {
           const penultimatePrice: number = history[history.length - 2].p ?? 0.1;
           const lastPercentageChange: number =
             ((lastPrice - penultimatePrice) / penultimatePrice) * 100;
+          const foundItem = state.watchList.find(item => item.symbol === data?.data[0]?.s);
           const newItem: WatchListItem = {
             symbol: data?.data[0]?.s ?? '',
-            price: 0,
+            price: foundItem ? foundItem.price : 0,
             currentValue: data?.data[0]?.p ?? 0,
             currentPercentage: lastPercentageChange,
             history: data?.data,
