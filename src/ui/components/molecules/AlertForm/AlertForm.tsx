@@ -25,7 +25,7 @@ const AlertForm = ({symbols}: {symbols: any[]}) => {
   const setAlert = () => {
     let item = {
       price: price ?? 0,
-      symbol: symbol ?? '',
+      symbol: symbol?.toString() ?? '',
     };
     setLastAdded(item);
     addToWatchList(item);
