@@ -11,6 +11,7 @@ export interface StockState {
   errorMessage: string;
   message: string;
   watchList: WatchListItem[];
+  symbols: string[];
 }
 export interface WatchListItem {
   symbol: string;

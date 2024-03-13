@@ -63,10 +63,11 @@ const addToWatchList = (state: StockState, payload: WatchListItem) => {
     item => item.symbol === newItem.symbol,
   );
   if (existingIndex === -1) {
-    showMessage('item added');
+    showMessage('item added' + newItem.symbol);
     return {
       ...state,
       watchList: [...state.watchList, newItem],
+      symbols: [...state.symbols, newItem.symbol],
     };
   } else {
     const updatedWatchList = [...state.watchList];
