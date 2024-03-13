@@ -23,7 +23,7 @@ export const inputStyles = () =>
       width: '100%',
       borderWidth: 1,
       borderColor: DesignTokens.color.primary,
-      backgroundColor: DesignTokens.color.primary,
+      backgroundColor: DesignTokens.color.black,
       borderRadius: 6,
       overflow: 'hidden',
     },

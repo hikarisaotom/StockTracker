@@ -23,17 +23,10 @@ function AddAlert() {
     {symbol: 'TSLA', description: 'Tesla Inc.'},
   ]);
   const [loading, setIsLoading] = useState(false);
-  const backgroundStyle = {
-    backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
-  };
-
   const styles = AddAlertStyles;
   return (
     <SafeAreaView style={styles.container}>
-      <StatusBar
-        barStyle={isDarkMode ? 'light-content' : 'dark-content'}
-        backgroundColor={backgroundStyle.backgroundColor}
-      />
+      <StatusBar barStyle={'light-content'} />
       {loading ? <Loader /> : <AlertForm symbols={symbols ?? []} />}
     </SafeAreaView>
   );

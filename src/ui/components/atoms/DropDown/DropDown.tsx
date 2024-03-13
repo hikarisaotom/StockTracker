@@ -37,7 +37,7 @@ const CustomDropdown = ({
         iconStyle={dropdownStyles().iconStyle}
         itemTextStyle={dropdownStyles().selectedTextStyle}
         containerStyle={dropdownStyles().containerStyle}
-        activeColor={DesignTokens.color.primary}
+        activeColor={DesignTokens.color.success}
         data={dataList}
         search
         maxHeight={300}

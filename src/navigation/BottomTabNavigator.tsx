@@ -4,6 +4,7 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 import tabsStrings from '../localization/navigation';
 import {BottomTabParamList} from './types';
 import {AddAlertScreen, GraphsScreen, WatchListScreen} from '../ui/screens';
+import {DesignTokens} from '../ui/theme';
 
 const Tab = createBottomTabNavigator<BottomTabParamList>();
 
@@ -15,7 +16,7 @@ const routes: Array<React.ComponentProps<typeof Tab.Screen>> = [
       tabBarLabel: tabsStrings.tabs.first,
       headerShown: false,
       tabBarIcon: ({color, size}) => (
-        <Icon name="access-alarm" size={20} color="#900" />
+        <Icon name="access-alarm" size={20} color={color} />
       ),
     },
   },
@@ -26,7 +27,7 @@ const routes: Array<React.ComponentProps<typeof Tab.Screen>> = [
       tabBarLabel: tabsStrings.tabs.second,
       headerShown: false,
       tabBarIcon: ({color, size}) => (
-        <Icon name="favorite" size={20} color="#900" />
+        <Icon name="favorite" size={20} color={color} />
       ),
     },
   },
@@ -37,7 +38,7 @@ const routes: Array<React.ComponentProps<typeof Tab.Screen>> = [
       tabBarLabel: tabsStrings.tabs.third,
       headerShown: false,
       tabBarIcon: ({color, size}) => (
-        <Icon name="bar-chart" size={20} color="#900" />
+        <Icon name="bar-chart" size={20} color={color} />
       ),
     },
   },
@@ -49,9 +50,16 @@ const BottomTabNavigator = () => {
       initialRouteName="AddAlert"
       screenOptions={{
         tabBarLabelStyle: {
-          fontSize: 16,
+          fontSize: 18,
           fontWeight: 'bold',
         },
+        tabBarStyle: {
+          backgroundColor: DesignTokens.color.black,
+          borderTopWidth: 1,
+          borderTopColor: DesignTokens.color.success,
+        },
+        tabBarActiveTintColor: DesignTokens.color.success,
+        tabBarInactiveTintColor: DesignTokens.color.white, 
       }}>
       {routes.map(routeConfig => (
         <Tab.Screen key={routeConfig.name} {...routeConfig} />

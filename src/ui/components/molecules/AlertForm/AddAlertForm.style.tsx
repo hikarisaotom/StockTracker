@@ -9,12 +9,22 @@ const AddAlertFormStyles = StyleSheet.create({
     flexGrow: 1,
     justifyContent: 'center',
   },
-
-  subContainer: {
+  screenContainer: {
     flex: 1,
-    paddingHorizontal: DesignTokens.margin.mid,
-    paddingTop: DesignTokens.margin.lg,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
+  subContainer: {
+    alignSelf: 'stretch',
+    alignContent: 'flex-start',
+    paddingHorizontal: DesignTokens.margin.mid,
+    paddingVertical: DesignTokens.margin.mid,
+    marginHorizontal: DesignTokens.margin.mid,
+    backgroundColor: 'rgba(191, 191, 191, 0.3)',
+  },
+  smallMargin: {
+    marginBottom: DesignTokens.margin.mid,
+  }
 });
 
 export default AddAlertFormStyles;

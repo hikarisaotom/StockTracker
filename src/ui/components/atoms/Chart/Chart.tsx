@@ -11,10 +11,11 @@ interface chartCardProps {
 
 const Chart = ({data}: chartCardProps) => {
   const chartConfig = {
-    backgroundGradientFrom: '#fff',
-    backgroundGradientTo: '#fff',
-    color: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`,
-    labelColor: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`,
+    backgroundGradientFrom: '#000000',
+    backgroundGradientTo: '#000000',
+    color: (opacity = 1) => `rgba(0, 255, 0, ${opacity})`,
+    labelColor: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
+    dotColor: (opacity = 1) => `rgba(0, 255, 0, ${opacity})`,
     strokeWidth: 2,
     barPercentage: 0.5,
     useShadowColorFromDataset: false,
@@ -82,19 +83,21 @@ const Chart = ({data}: chartCardProps) => {
   }
   return (
     <View style={styles.container}>
+      <Text style={styles.title}>{data.symbol}</Text>
       {data?.history?.length >= 1 ? (
         <LineChart
           data={getValidData()}
-          width={Dimensions.get('window').width}
+          withDots={false}
+          width={Dimensions.get('window').width * 0.9}
           height={300}
           chartConfig={chartConfig}
           bezier
-          style={{borderRadius: 16}}
+          style={styles.chartContainer}
           verticalLabelRotation={20}
           horizontalLabelRotation={20}
         />
       ) : (
-        <EmptyState text={graphStrings.emptyState.title + data.symbol} />
+        <EmptyState text={graphStrings.emptyState.title} />
       )}
     </View>
   );

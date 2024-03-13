@@ -7,8 +7,8 @@ export const informationCardStyles = StyleSheet.create({
     borderRadius: 8,
     marginVertical: 8,
     width: '100%',
-    backgroundColor: 'white',
-    borderWidth: 1,
+    backgroundColor: DesignTokens.color.black,
+    borderWidth: 2,
   },
   redBorder: {
     borderColor: DesignTokens.color.error,
@@ -17,11 +17,13 @@ export const informationCardStyles = StyleSheet.create({
     borderColor: DesignTokens.color.success,
   },
   title: {
+    color: DesignTokens.color.white,
     fontSize: 18,
     fontWeight: '600',
     marginBottom: 8,
   },
   currentValue: {
+    color: DesignTokens.color.white,
     fontSize: 18,
     marginBottom: 4,
     fontWeight: 'bold',
@@ -34,11 +36,13 @@ export const informationCardStyles = StyleSheet.create({
     color: DesignTokens.color.error,
   },
   stockText: {
+    color: DesignTokens.color.white,
     fontSize: 18,
     fontWeight: 'bold',
     fontStyle: 'normal',
   },
   moneyStockTextchange: {
+    color: DesignTokens.color.white,
     fontSize: 14,
     fontWeight: 'bold',
     fontStyle: 'italic',
@@ -55,6 +59,7 @@ export const informationCardStyles = StyleSheet.create({
   },
 
   alertPrice: {
+    color: DesignTokens.color.white,
     textAlign: 'right',
     fontSize: 14,
   },

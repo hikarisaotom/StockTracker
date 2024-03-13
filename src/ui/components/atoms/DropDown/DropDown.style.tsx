@@ -6,16 +6,16 @@ export const dropdownStyles = () =>
       height: 50,
       borderRadius: 8,
       paddingHorizontal: 8,
-      backgroundColor: DesignTokens.color.primary,
+      backgroundColor: DesignTokens.color.black,
       color: DesignTokens.color.success,
     },
     containerStyle: {
-      backgroundColor: DesignTokens.color.primary,
+      backgroundColor: DesignTokens.color.black,
       borderColor: DesignTokens.color.white,
     },
     placeholderStyle: {
       fontSize: 14,
-      color: DesignTokens.color.disabled,
+      color: DesignTokens.color.white,
       paddingLeft: DesignTokens.margin.sm,
     },
     selectedTextStyle: {
@@ -24,7 +24,7 @@ export const dropdownStyles = () =>
     },
     inputSearchStyle: {
       fontSize: 16,
-      backgroundColor: DesignTokens.color.primary,
+      backgroundColor: DesignTokens.color.black,
       borderColor: DesignTokens.color.success,
       color: DesignTokens.color.white,
     },
@@ -36,7 +36,7 @@ export const dropdownStyles = () =>
       marginBottom: DesignTokens.margin.mid,
     },
     label: {
-      color: DesignTokens.color.white,
+      color: DesignTokens.color.black,
       left: 8,
       marginBottom: 8,
       fontSize: 14,

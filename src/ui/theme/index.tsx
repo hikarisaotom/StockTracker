@@ -1,8 +1,8 @@
 export const DesignTokens = {
   color: {
-    black: '#1E1E1E',
+    black: 'black',
     primary: '#FFFFFF',
-    white: '#1E1E1E',
+    white: 'white',
     error: '#D8615F',
     success: '#2AC659',
     disabled: '#A5A5A5',
