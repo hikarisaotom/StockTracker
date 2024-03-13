@@ -1,5 +1,5 @@
 import {StyleSheet} from 'react-native';
-import {DesignTokens} from '../../theme/index';
+import {DesignTokens} from '../../../theme/index';
 
 export const informationCardStyles = StyleSheet.create({
   card: {

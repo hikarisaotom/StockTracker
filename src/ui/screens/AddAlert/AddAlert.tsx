@@ -1,33 +1,17 @@
-import React, {useContext, useEffect, useState} from 'react';
-import {
-  SafeAreaView,
-  ScrollView,
-  StatusBar,
-  View,
-  useColorScheme,
-} from 'react-native';
+import React, {useEffect, useState} from 'react';
+import {SafeAreaView, StatusBar, useColorScheme} from 'react-native';
 import {Colors} from 'react-native/Libraries/NewAppScreen';
-import Input from '../../components/atoms/Inputs/Input';
-import CustomButton from '../../components/atoms/Button/Button';
-import CustomDropdown from '../../components/atoms/DropDown/DropDown';
 import Loader from '../../components/atoms/Loader/Loader';
-import defaultStrings from '../../../localization/default';
 import {API_KEY} from 'react-native-dotenv';
 import AddAlertStyles from './AddAlert.style';
-import {getnumericValueInputProps} from '../../forms';
-import InformationCard from '../../components/molecules/InformationCard';
-import {AppContext} from '../../../data/store/Context';
+import AlertForm from '../../components/molecules/AlertForm/AlertForm';
 function AddAlert() {
   const isDarkMode = useColorScheme() === 'dark';
-  const [symbol, setSymbol] = useState<string | null>(null);
-  const [price, setPrice] = useState<number | null>(0);
-  const [priceInputError, setPriceInputError] = useState<string | null>(null);
   const [symbols, setSymbols] = useState([]);
   const [loading, setIsLoading] = useState(false);
   const backgroundStyle = {
     backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
   };
-  const {addToWatchList} = useContext(AppContext);
 
   const styles = AddAlertStyles;
   useEffect(() => {
@@ -47,62 +31,13 @@ function AddAlert() {
 
     fetchSymbols();
   }, []);
-
-  const isButtonDisabled = () => {
-    return symbol == null || (price ?? '').toString().length <= 0;
-  };
-
-  useEffect(() => {
-    if ((price ?? '').toString().length <= 0) {
-      setSymbol(null);
-    }
-  }, [price]);
-  const form = () => {
-    return (
-      <ScrollView
-        contentInsetAdjustmentBehavior="automatic"
-        style={styles.subContainer}>
-        <Input
-          value={price}
-          onChangeText={setPrice}
-          placeholder={defaultStrings.input.placeholder}
-          required
-          error={priceInputError}
-          onError={setPriceInputError}
-          {...getnumericValueInputProps()}
-          testID="price"
-        />
-        <CustomDropdown
-          selectedText={symbol}
-          onSelected={setSymbol}
-          dataList={symbols}
-          valueToDisplay="description"
-          valueToSave="symbol"
-        />
-        <CustomButton
-          text={defaultStrings.button.subscribe}
-          disabled={isButtonDisabled()}
-          onPress={() => {
-            addToWatchList({
-              price: price ?? 0,
-              symbol: symbol ?? '',
-            });
-          }}
-        />
-
-        {symbol && price && (
-          <InformationCard alertPrice={price} symbol={symbol} />
-        )}
-      </ScrollView>
-    );
-  };
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar
         barStyle={isDarkMode ? 'light-content' : 'dark-content'}
         backgroundColor={backgroundStyle.backgroundColor}
       />
-      {loading ? <Loader /> : form()}
+      {loading ? <Loader /> : <AlertForm symbols={symbols ?? []} />}
     </SafeAreaView>
   );
 }

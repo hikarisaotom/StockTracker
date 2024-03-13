@@ -1,32 +1,24 @@
-import React from 'react';
-import {
-  SafeAreaView,
-  ScrollView,
-  StatusBar,
-  Text,
-  useColorScheme,
-} from 'react-native';
-
-import {Colors} from 'react-native/Libraries/NewAppScreen';
+import React, {useContext} from 'react';
+import {SafeAreaView, View} from 'react-native';
+import {FlatList} from 'react-native-gesture-handler';
+import {AppContext} from '../../../data/store/Context';
+import InformationCard from '../../components/molecules/InformationCard/InformationCard';
+import watchListStyles from './WatchList.style';
 
 function WatchList() {
-  const isDarkMode = useColorScheme() === 'dark';
-
-  const backgroundStyle = {
-    backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
-  };
-
+  const {watchList} = useContext(AppContext);
+  const styles = watchListStyles;
   return (
-    <SafeAreaView style={backgroundStyle}>
-      <StatusBar
-        barStyle={isDarkMode ? 'light-content' : 'dark-content'}
-        backgroundColor={backgroundStyle.backgroundColor}
-      />
-      <ScrollView
-        contentInsetAdjustmentBehavior="automatic"
-        style={backgroundStyle}>
-        <Text>{'Screen 2'}</Text>
-      </ScrollView>
+    <SafeAreaView style={styles.container}>
+      <View style={styles.subContainer}>
+        <FlatList
+          data={watchList}
+          renderItem={({item}) => (
+            <InformationCard symbol={item.symbol} price={item.price} />
+          )}
+          keyExtractor={(item, index) => index.toString()}
+        />
+      </View>
     </SafeAreaView>
   );
 }

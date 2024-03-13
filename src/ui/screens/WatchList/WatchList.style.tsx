@@ -1,5 +1,15 @@
 import {StyleSheet} from 'react-native';
+import {DesignTokens} from '../../theme';
 
-const styles = StyleSheet.create({});
+const watchListStyles = StyleSheet.create({
+  container: {
+    paddingHorizontal: DesignTokens.margin.lg,
+    marginBottom: DesignTokens.margin.sm,
+    flex: 1,
+    flexGrow: 1,
+    justifyContent: 'center',
+  },
+  subContainer: {marginHorizontal: DesignTokens.margin.mid},
+});
 
-export default styles;
+export default watchListStyles;

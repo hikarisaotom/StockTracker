@@ -9,12 +9,6 @@ const AddAlertStyles = StyleSheet.create({
     flexGrow: 1,
     justifyContent: 'center',
   },
-
-  subContainer: {
-    flex: 1,
-    paddingHorizontal: DesignTokens.margin.mid,
-    paddingTop: DesignTokens.margin.lg,
-  },
 });
 
 export default AddAlertStyles;
