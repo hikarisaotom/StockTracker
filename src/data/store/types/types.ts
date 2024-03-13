@@ -21,7 +21,7 @@ export interface WatchListItem {
 }
 
 export interface TradeData {
-  c: null;
+  c: null | string;
   p: number;
   s: string;
   t: number;
