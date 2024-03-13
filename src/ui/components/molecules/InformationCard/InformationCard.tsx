@@ -95,36 +95,34 @@ const InformationCard = ({symbol, price}: WatchListItem) => {
   );
 
   return (
-    <View style={[styles.card, {backgroundColor: cardBgColor}]}>
-      <Text style={styles.title}>
-        {symbol} {name}
-      </Text>
-      <Text style={styles.text}>
-        Price / Value:{' '}
-        <Text style={styles.bold}>${currentValue.toFixed(2)}</Text>
-      </Text>
-      <Text style={styles.text}>
-        <Icon
-          name={change >= 0 ? 'arrow-drop-up' : 'arrow-drop-down'}
-          size={50}
-          color={
-            change >= 0 ? DesignTokens.color.success : DesignTokens.color.error
-          }
-        />
-        <Text style={change >= 0 ? styles.greenText : styles.redText}>
-          {Math.abs(marginChange) < 1
-            ? marginChange.toFixed(4)
-            : marginChange.toFixed(2)}
-          % (${change.toFixed(2)})
-        </Text>
-      </Text>
-      {price && (
-        <Text style={styles.text}>
-          Alert Price:{' '}
-          <Text style={styles.bold}>${Math.round(price * 100) / 100}</Text>
-        </Text>
-      )}
-    </View>
+<View style={[styles.card, {backgroundColor: cardBgColor}]}>
+  <Text style={styles.title}>
+    {symbol} {name}
+  </Text>
+  <Text style={styles.text}>
+    Price / Value:{' '}
+    <Text style={styles.bold}>${currentValue.toFixed(2)}</Text>
+  </Text>
+  <View style={{ flexDirection: 'row' }}>
+    <Icon
+      name={change >= 0 ? 'arrow-drop-up' : 'arrow-drop-down'}
+      size={50}
+      color={change >= 0 ? DesignTokens.color.success : DesignTokens.color.error}
+    />
+    <Text style={change >= 0 ? styles.greenText : styles.redText}>
+      {Math.abs(marginChange) < 1 ? marginChange.toFixed(4) : marginChange.toFixed(2)}%
+    </Text>
+    <Text style={change >= 0 ? styles.greenText : styles.redText}>
+      (${change.toFixed(2)})
+    </Text>
+  </View>
+  {price && (
+    <Text style={styles.text}>
+      Alert Price:{' '}
+      <Text style={styles.bold}>${Math.round(price * 100) / 100}</Text>
+    </Text>
+  )}
+</View>
   );
 };
 
