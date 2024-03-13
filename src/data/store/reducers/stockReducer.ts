@@ -67,6 +67,19 @@ export const StockReducer = (
           watchList: updatedWatchList,
         };
       }
+
+    case 'updatePrices':
+      const {symbol, prices} = action.payload;
+      const updatedWatchList = state.watchList.map(item => {
+        if (item.symbol === symbol) {
+          return {...item, history: prices};
+        }
+        return item;
+      });
+      return {
+        ...state,
+        watchList: updatedWatchList,
+      };
     default:
       return state;
   }

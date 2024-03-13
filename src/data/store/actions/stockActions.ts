@@ -1,4 +1,4 @@
-import {WatchListItem} from '../types/types';
+import {TradeData, WatchListItem} from '../types/types';
 
 export type StockAction =
   | {type: 'signUp'; payload: any}
@@ -7,4 +7,5 @@ export type StockAction =
   | {type: 'removeError'}
   | {type: 'removeMsg'}
   | {type: 'logout'}
-  | {type: 'addToWatchList'; payload: WatchListItem};
+  | {type: 'addToWatchList'; payload: WatchListItem}
+  | {type: 'updatePrices'; payload: {prices: TradeData[]; symbol: string}};

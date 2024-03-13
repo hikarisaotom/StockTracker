@@ -1,32 +1,22 @@
-import React from 'react';
-import {
-  SafeAreaView,
-  ScrollView,
-  StatusBar,
-  Text,
-  useColorScheme,
-} from 'react-native';
-
-import {Colors} from 'react-native/Libraries/NewAppScreen';
+import React, {useContext} from 'react';
+import {SafeAreaView, View} from 'react-native';
+import {FlatList} from 'react-native-gesture-handler';
+import {AppContext} from '../../../data/store/Context';
+import Chart from '../../components/atoms/Chart/Chart';
+import graphStyles from './Graphs.style';
 
 function Graphs() {
-  const isDarkMode = useColorScheme() === 'dark';
-
-  const backgroundStyle = {
-    backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
-  };
-
+  const {watchList} = useContext(AppContext);
+  const styles = graphStyles;
   return (
-    <SafeAreaView style={backgroundStyle}>
-      <StatusBar
-        barStyle={isDarkMode ? 'light-content' : 'dark-content'}
-        backgroundColor={backgroundStyle.backgroundColor}
-      />
-      <ScrollView
-        contentInsetAdjustmentBehavior="automatic"
-        style={backgroundStyle}>
-        <Text>{'Screen 3'}</Text>
-      </ScrollView>
+    <SafeAreaView style={styles.container}>
+      <View style={styles.subContainer}>
+        <FlatList
+          data={watchList}
+          renderItem={({item}) => <Chart item={item} />}
+          keyExtractor={(item, index) => index.toString()}
+        />
+      </View>
     </SafeAreaView>
   );
 }

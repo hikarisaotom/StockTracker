@@ -6,7 +6,7 @@ export const DesignTokens = {
     error: '#D8615F',
     success: '#2AC659',
     disabled: '#A5A5A5',
-    warning: 'yellow',
+    warning: '#efd52e',
   },
   margin: {
     lg: 30,

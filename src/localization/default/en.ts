@@ -13,4 +13,7 @@ export default {
   input: {
     placeholder: 'Price',
   },
+  price: {
+    default: 'Alert value: ',
+  },
 };

@@ -14,7 +14,11 @@ function WatchList() {
         <FlatList
           data={watchList}
           renderItem={({item}) => (
-            <InformationCard symbol={item.symbol} price={item.price} />
+            <InformationCard
+              symbol={item.symbol}
+              price={item.price}
+              history={[]}
+            />
           )}
           keyExtractor={(item, index) => index.toString()}
         />

@@ -14,7 +14,10 @@ const AlertForm = ({symbols}: {symbols: any[]}) => {
   const [symbol, setSymbol] = useState<string | null>(null);
   const [price, setPrice] = useState<number | null>(0);
   const [priceInputError, setPriceInputError] = useState<string | null>(null);
-  const [lastAdded, setLastAdded] = useState<WatchListItem | null>(null);
+  const [lastAdded, setLastAdded] = useState<WatchListItem | null>({
+    symbol: 'BINANCE:BTCUSDT',
+    price: 89.8,
+  });
 
   const {addToWatchList} = useContext(AppContext);
 

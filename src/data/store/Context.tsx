@@ -1,6 +1,11 @@
 import {createContext, useReducer} from 'react';
 import React from 'react';
-import {Contextprops, StockState, WatchListItem} from './types/types';
+import {
+  Contextprops,
+  StockState,
+  TradeData,
+  WatchListItem,
+} from './types/types';
 import {StockReducer} from './reducers/stockReducer';
 
 const initialState: StockState = {
@@ -19,11 +24,18 @@ export const ContextProvider = ({children}: any) => {
       payload: item,
     });
   };
+  const updateHistory = (prices: TradeData[], symbol: string) => {
+    dispatch({
+      type: 'updatePrices',
+      payload: {prices: prices, symbol: symbol},
+    });
+  };
   return (
     <AppContext.Provider
       value={{
         ...state,
         addToWatchList,
+        updateHistory,
       }}>
       {children}
     </AppContext.Provider>
