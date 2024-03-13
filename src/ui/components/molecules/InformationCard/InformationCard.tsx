@@ -10,8 +10,6 @@ interface informationCardProps {
 }
 const InformationCard = ({stock}: informationCardProps) => {
   let {symbol, price, currentValue, currentPercentage: change} = stock;
-  // const [marginChange, setMarginChange] = useState(currentPercentage);
-  // const [change, setChange] = useState(currentPercentage);
   const styles = informationCardStyles;
   return (
     <View

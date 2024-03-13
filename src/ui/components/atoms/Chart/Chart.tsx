@@ -2,8 +2,12 @@ import React from 'react';
 import {Dimensions, Text} from 'react-native';
 import {LineChart} from 'react-native-chart-kit';
 import {WatchListItem} from '../../../../data/store/types/types';
+interface chartCardProps {
+  data: WatchListItem;
+}
 
-const Chart = ({item}: WatchListItem) => {
+const Chart = ({data}: chartCardProps) => {
+  console.log('[GRAPHS]', data.history.length);
   const chartConfig = {
     backgroundGradientFrom: '#fff',
     backgroundGradientTo: '#fff',
@@ -14,7 +18,7 @@ const Chart = ({item}: WatchListItem) => {
     useShadowColorFromDataset: false,
   };
 
-  const getValidData = (data: WatchListItem|undefined) => {
+  const getValidData = () => {
     if (!data || !data.history) {
       return {
         labels: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
@@ -48,16 +52,15 @@ const Chart = ({item}: WatchListItem) => {
     return {
       labels,
       datasets,
-      legend: ['Historical Prices for ' + (item?.item?.symbol ?? '')],
+      legend: ['Historical Prices for ' + (data.symbol ?? '')],
     };
   };
   function convertNumbers(number) {
     const suffixes = ['', 'K', 'M', 'B'];
     function formatNumber(n) {
       const formatNumber = new Intl.NumberFormat('en-US');
-     return formatNumber.format(n);
+      return formatNumber.format(n);
     }
-
 
     function getScale(n) {
       return Math.floor(Math.log10(n) / 3);
@@ -71,12 +74,12 @@ const Chart = ({item}: WatchListItem) => {
     }
 
     return convert(number);
-}
+  }
   return (
     <>
-      {item?.history ? (
+      {data?.history ? (
         <LineChart
-          data={getValidData(item)}
+          data={getValidData()}
           width={Dimensions.get('window').width}
           height={300}
           chartConfig={chartConfig}
@@ -87,7 +90,7 @@ const Chart = ({item}: WatchListItem) => {
         />
       ) : (
         <Text style={{textAlign: 'center', fontSize: 20, marginBottom: 10}}>
-          {'No chart avaliable for '+item.symbol}
+          {'No chart avaliable for ' + data.symbol}
         </Text>
       )}
     </>
