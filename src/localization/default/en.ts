@@ -16,4 +16,8 @@ export default {
   price: {
     default: 'Alert value: ',
   },
+  empty: {
+    title: 'No data to display yet',
+    graph: 'No graphs to display yet',
+  },
 };

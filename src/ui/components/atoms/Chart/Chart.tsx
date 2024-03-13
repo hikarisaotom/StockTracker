@@ -1,7 +1,10 @@
 import React from 'react';
-import {Dimensions, Text} from 'react-native';
+import {Dimensions, Text, View} from 'react-native';
 import {LineChart} from 'react-native-chart-kit';
 import {WatchListItem} from '../../../../data/store/types/types';
+import EmptyState from '../EmptyState/EmptyState';
+import graphStrings from '../../../../localization/graph/Localization';
+import {chartStyles} from './Chart.style';
 interface chartCardProps {
   data: WatchListItem;
 }
@@ -16,7 +19,7 @@ const Chart = ({data}: chartCardProps) => {
     barPercentage: 0.5,
     useShadowColorFromDataset: false,
   };
-
+  const styles = chartStyles;
   const getValidData = () => {
     if (!data || !data.history) {
       return {
@@ -78,7 +81,7 @@ const Chart = ({data}: chartCardProps) => {
     return convert(number);
   }
   return (
-    <>
+    <View style={styles.container}>
       {data?.history?.length >= 1 ? (
         <LineChart
           data={getValidData()}
@@ -91,11 +94,9 @@ const Chart = ({data}: chartCardProps) => {
           horizontalLabelRotation={20}
         />
       ) : (
-        <Text style={{textAlign: 'center', fontSize: 20, marginBottom: 10}}>
-          {'No chart avaliable for ' + data.symbol}
-        </Text>
+        <EmptyState text={graphStrings.emptyState.title + data.symbol} />
       )}
-    </>
+    </View>
   );
 };
 
