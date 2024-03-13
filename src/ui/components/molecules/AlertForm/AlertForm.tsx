@@ -14,10 +14,7 @@ const AlertForm = ({symbols}: {symbols: any[]}) => {
   const [symbol, setSymbol] = useState<string | null>(null);
   const [price, setPrice] = useState<number | null>(0);
   const [priceInputError, setPriceInputError] = useState<string | null>(null);
-  const [lastAdded, setLastAdded] = useState<WatchListItem | null>({
-    symbol: 'BINANCE:BTCUSDT',
-    price: 89.8,
-  });
+  const [lastAdded, setLastAdded] = useState<WatchListItem | null>();
 
   const {addToWatchList} = useContext(AppContext);
 
@@ -26,9 +23,12 @@ const AlertForm = ({symbols}: {symbols: any[]}) => {
     return symbol == null || (price ?? '').toString().length <= 0;
   };
   const setAlert = () => {
-    let item = {
+    let item: WatchListItem = {
       price: price ?? 0,
       symbol: symbol?.toString() ?? '',
+      currentPercentage: 0,
+      currentValue: 0,
+      history: [],
     };
     setLastAdded(item);
     addToWatchList(item);
@@ -60,9 +60,7 @@ const AlertForm = ({symbols}: {symbols: any[]}) => {
         onPress={setAlert}
       />
 
-      {lastAdded && (
-        <InformationCard symbol={lastAdded.symbol} price={lastAdded.price} />
-      )}
+      {lastAdded && <InformationCard stock={lastAdded} />}
     </ScrollView>
   );
 };

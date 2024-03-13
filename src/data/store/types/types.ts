@@ -4,7 +4,6 @@ export type Contextprops = {
   message: string;
   watchList: WatchListItem[];
   addToWatchList: (item: WatchListItem) => void;
-  updateHistory: (prices: TradeData[], symbol: string) => void;
 };
 
 export interface StockState {
@@ -16,6 +15,8 @@ export interface StockState {
 export interface WatchListItem {
   symbol: string;
   price: number;
+  currentValue: number;
+  currentPercentage: number;
   history: TradeData[];
 }
 

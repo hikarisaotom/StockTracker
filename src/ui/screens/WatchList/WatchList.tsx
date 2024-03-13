@@ -13,13 +13,7 @@ function WatchList() {
       <View style={styles.subContainer}>
         <FlatList
           data={watchList}
-          renderItem={({item}) => (
-            <InformationCard
-              symbol={item.symbol}
-              price={item.price}
-              history={[]}
-            />
-          )}
+          renderItem={({item}) => <InformationCard stock={item} />}
           keyExtractor={(item, index) => index.toString()}
         />
       </View>

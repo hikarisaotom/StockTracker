@@ -8,4 +8,4 @@ export type StockAction =
   | {type: 'removeMsg'}
   | {type: 'logout'}
   | {type: 'addToWatchList'; payload: WatchListItem}
-  | {type: 'updatePrices'; payload: {prices: TradeData[]; symbol: string}};
+  | {type: 'updateWatchListItem'; payload: WatchListItem};

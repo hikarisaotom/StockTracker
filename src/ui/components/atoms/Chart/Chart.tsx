@@ -3,7 +3,7 @@ import {Dimensions, Text} from 'react-native';
 import {LineChart} from 'react-native-chart-kit';
 import {WatchListItem} from '../../../../data/store/types/types';
 
-const Chart = (item: WatchListItem ) => {
+const Chart = ({item}: WatchListItem) => {
   const chartConfig = {
     backgroundGradientFrom: '#fff',
     backgroundGradientTo: '#fff',
@@ -16,7 +16,10 @@ const Chart = (item: WatchListItem ) => {
 
   const getValidData = (data: WatchListItem|undefined) => {
     if (!data || !data.history) {
-      return {labels: [], datasets: []};
+      return {
+        labels: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        datasets: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      };
     }
     const validData = data.history.filter(item => {
       if (!item.hasOwnProperty('t') || !item.hasOwnProperty('p')) {
@@ -27,7 +30,12 @@ const Chart = (item: WatchListItem ) => {
       }
       return true;
     });
-
+    if (validData === undefined || validData.length <= 0) {
+      return {
+        labels: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        datasets: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      };
+    }
     const labels = validData.map(item => convertNumbers(item.p ?? 0));
     const datasets = [
       {
@@ -66,9 +74,9 @@ const Chart = (item: WatchListItem ) => {
 }
   return (
     <>
-      {item?.item?.history ? (
+      {item?.history ? (
         <LineChart
-          data={getValidData(item.item)}
+          data={getValidData(item)}
           width={Dimensions.get('window').width}
           height={300}
           chartConfig={chartConfig}
@@ -79,7 +87,7 @@ const Chart = (item: WatchListItem ) => {
         />
       ) : (
         <Text style={{textAlign: 'center', fontSize: 20, marginBottom: 10}}>
-          {'No chart avaliable'}
+          {'No chart avaliable for '+item.symbol}
         </Text>
       )}
     </>
