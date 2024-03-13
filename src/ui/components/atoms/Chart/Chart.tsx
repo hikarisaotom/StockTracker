@@ -7,7 +7,7 @@ interface chartCardProps {
 }
 
 const Chart = ({data}: chartCardProps) => {
-  console.log('[GRAPHS]', data.history.length);
+  console.log('[GRAPHS]', data?.history);
   const chartConfig = {
     backgroundGradientFrom: '#fff',
     backgroundGradientTo: '#fff',
@@ -77,7 +77,7 @@ const Chart = ({data}: chartCardProps) => {
   }
   return (
     <>
-      {data?.history ? (
+      {data?.history?.length >= 1 ? (
         <LineChart
           data={getValidData()}
           width={Dimensions.get('window').width}

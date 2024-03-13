@@ -29,7 +29,6 @@ export const ContextProvider = ({ children }: any) => {
   };
 
   const updateWatchItem = (newData: WatchListItem) => {
-    console.log('updating '+newData.symbol);
     dispatch({
       type: 'updateWatchListItem',
       payload: newData,
@@ -37,7 +36,6 @@ export const ContextProvider = ({ children }: any) => {
   };
   function subscribeToSymbols(socket: WebSocket) {
     state.symbols.forEach((item: string) => {
-      console.log('[subsribe]', item);
       if (socket && socket.readyState === WebSocket.OPEN && item) {
         socket.send(JSON.stringify({ type: 'subscribe', symbol: item }));
       }
