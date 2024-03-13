@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import { createContext, useReducer, useEffect } from 'react';
 import React from 'react';
 import {

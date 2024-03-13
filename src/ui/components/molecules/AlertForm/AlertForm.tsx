@@ -60,7 +60,7 @@ const AlertForm = ({symbols}: {symbols: any[]}) => {
         onPress={setAlert}
       />
 
-      {lastAdded && <InformationCard stock={lastAdded} />}
+      {/* {lastAdded && <InformationCard stock={lastAdded} />} */}
     </ScrollView>
   );
 };
