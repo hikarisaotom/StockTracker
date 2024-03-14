@@ -1,8 +1,28 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import MainStackNavigator from '../navigation/MainStackNavigator';
 import {ContextProvider} from '../data/store/Context';
-
+import PushNotificationIOS from '@react-native-community/push-notification-ios';
+import PushNotification from 'react-native-push-notification';
+import { PermissionsAndroid } from 'react-native';
 function App(): React.JSX.Element {
+  const createChannel = () => {
+    try {
+      PermissionsAndroid.request(
+        PermissionsAndroid.PERMISSIONS.POST_NOTIFICATIONS,
+      );
+    } catch (error) {}
+    PushNotification.createChannel(
+      {
+        channelId: 'test-channel',
+        channelName: 'test Channel',
+      },
+      () => {},
+    );
+  };
+  useEffect(() => {
+    createChannel();
+  }, []);
+
   return (
     <>
       <AppState>

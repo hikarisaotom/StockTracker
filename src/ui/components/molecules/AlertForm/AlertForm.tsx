@@ -1,17 +1,18 @@
 import React, {useContext, useEffect, useState} from 'react';
-import { View } from 'react-native';
-import { WatchListItem } from '../../../../data/store/types/types';
-import { AppContext } from '../../../../data/store/Context';
+import {View} from 'react-native';
+import {WatchListItem} from '../../../../data/store/types/types';
+import {AppContext} from '../../../../data/store/Context';
 import AddAlertFormStyles from './AddAlertForm.style';
 import Input from '../../atoms/Inputs/Input';
 import defaultStrings from '../../../../localization/default';
-import { getnumericValueInputProps } from '../../../forms';
+import {getnumericValueInputProps} from '../../../forms';
 import CustomDropdown from '../../atoms/DropDown/DropDown';
 import CustomButton from '../../atoms/Button/Button';
 import InformationCard from '../InformationCard/InformationCard';
 import EmptyState from '../../atoms/EmptyState/EmptyState';
+import PushNotification from 'react-native-push-notification';
 
-const AlertForm = ({ symbols }: { symbols: any[] }) => {
+const AlertForm = ({symbols}: {symbols: any[]}) => {
   const [symbol, setSymbol] = useState<string | null>(null);
   const [price, setPrice] = useState<number | null>(0);
   const [priceInputError, setPriceInputError] = useState<string | null>(null);
@@ -22,11 +23,19 @@ const AlertForm = ({ symbols }: { symbols: any[] }) => {
   const isButtonDisabled = () => {
     return symbol == null || (price ?? '').toString().length <= 0;
   };
+
   useEffect(() => {
-    setLastAdded(watchList.find(item => item.symbol === symbol?.toString() ?? ''));
+    setLastAdded(
+      watchList.find(item => item.symbol === symbol?.toString() ?? ''),
+    );
   }, [symbol, watchList]);
 
   const setAlert = () => {
+    PushNotification.localNotification({
+      channelId: 'test-channel',
+      title: 'You got this!',
+      message: 'yeey!!!!!',
+    });
     let item: WatchListItem = {
       price: price ?? 0,
       symbol: symbol?.toString() ?? '',
