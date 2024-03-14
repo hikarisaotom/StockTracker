@@ -110,7 +110,6 @@ const showNotification = (title: string, msg: string) => {
   }
 };
 
-
 const updateWatchList = (state: StockState, payload: WatchListItem) => {
   const updatedItem = payload;
   let price = updatedItem.currentValue;
