@@ -76,6 +76,7 @@
 		495E012F2BA17DAD00C8D314 /* SimpleLineIcons.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = SimpleLineIcons.ttf; sourceTree = "<group>"; };
 		495E01302BA17DAD00C8D314 /* FontAwesome6_Brands.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = FontAwesome6_Brands.ttf; sourceTree = "<group>"; };
 		495E01312BA17DAD00C8D314 /* MaterialIcons.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = MaterialIcons.ttf; sourceTree = "<group>"; };
+		49D88A8C2BA268CD00831590 /* StockTracker.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = StockTracker.entitlements; path = StockTracker/StockTracker.entitlements; sourceTree = "<group>"; };
 		5709B34CF0A7D63546082F79 /* Pods-StockTracker.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-StockTracker.release.xcconfig"; path = "Target Support Files/Pods-StockTracker/Pods-StockTracker.release.xcconfig"; sourceTree = "<group>"; };
 		5B7EB9410499542E8C5724F5 /* Pods-StockTracker-StockTrackerTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-StockTracker-StockTrackerTests.debug.xcconfig"; path = "Target Support Files/Pods-StockTracker-StockTrackerTests/Pods-StockTracker-StockTrackerTests.debug.xcconfig"; sourceTree = "<group>"; };
 		5DCACB8F33CDC322A6C60F78 /* libPods-StockTracker.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-StockTracker.a"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -124,6 +125,7 @@
 		13B07FAE1A68108700A75B9A /* StockTracker */ = {
 			isa = PBXGroup;
 			children = (
+				49D88A8C2BA268CD00831590 /* StockTracker.entitlements */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
 				13B07FB01A68108700A75B9A /* AppDelegate.mm */,
 				13B07FB51A68108700A75B9A /* Images.xcassets */,
@@ -550,6 +552,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = StockTracker/StockTracker.entitlements;
 				CURRENT_PROJECT_VERSION = 1;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = StockTracker/Info.plist;
@@ -577,6 +580,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = StockTracker/StockTracker.entitlements;
 				CURRENT_PROJECT_VERSION = 1;
 				INFOPLIST_FILE = StockTracker/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (

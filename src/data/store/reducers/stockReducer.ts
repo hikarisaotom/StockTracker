@@ -1,9 +1,10 @@
-// import {NotificationsTypes} from '../../enums/Notification';
-// import {NotificationsDispatcher} from '../../utils/notifications/NotificationDispatcher';
-
+import {Platform} from 'react-native';
 import {StockAction} from '../actions/stockActions';
 import {StockState, WatchListItem} from '../types/types';
-
+import PushNotificationIOS from '@react-native-community/push-notification-ios';
+import PushNotification from 'react-native-push-notification';
+import Toast from 'react-native-simple-toast';
+import {DesignTokens} from '../../../ui/theme';
 export const StockReducer = (
   state: StockState,
   action: StockAction,
@@ -50,11 +51,11 @@ export const StockReducer = (
 };
 
 const showMessage = (msg: string) => {
-  //   NotificationsDispatcher({
-  //     notificationType: NotificationsTypes.message,
-  //     bodyText: msg,
-  //   });
-  console.log(msg);
+  Toast.show(msg, Toast.LONG, {
+    tapToDismissEnabled: true,
+    backgroundColor: DesignTokens.color.success,
+    textColor: DesignTokens.color.black,
+  });
 };
 
 const addToWatchList = (state: StockState, payload: WatchListItem) => {
@@ -63,7 +64,8 @@ const addToWatchList = (state: StockState, payload: WatchListItem) => {
     item => item.symbol === newItem.symbol,
   );
   if (existingIndex === -1) {
-    showMessage('item added' + newItem.symbol);
+    showMessage('Price alert for ' + newItem.symbol + ' added');
+    newItem.wasNotified = false;
     return {
       ...state,
       watchList: [...state.watchList, newItem],
@@ -72,137 +74,81 @@ const addToWatchList = (state: StockState, payload: WatchListItem) => {
   } else {
     const updatedWatchList = [...state.watchList];
     updatedWatchList[existingIndex].price = newItem.price;
-    showMessage('This item was already in your watchlit, we updated the price');
+    updatedWatchList[existingIndex].wasNotified = false;
+    showMessage(newItem.symbol + " 's price alert updated");
+    if (
+      newItem.price < newItem.currentValue &&
+      !updatedWatchList[existingIndex].wasNotified
+    ) {
+      showNotification(
+        'Watch Out At this!',
+        newItem.symbol + ' has passed the price you set up for watching',
+      );
+      updatedWatchList[existingIndex].wasNotified = true;
+    } else if (newItem.price == newItem.currentValue) {
+      updatedWatchList[existingIndex].wasNotified = true;
+      showNotification(
+        'Can you see the future?',
+        newItem.symbol + ' has reached the price you set up for watching',
+      );
+    }
     return {
       ...state,
       watchList: updatedWatchList,
     };
   }
 };
+const showNotification = (title: string, msg: string) => {
+  if (Platform.OS === 'ios') {
+    PushNotificationIOS.addNotificationRequest({
+      title: '🎉' + title + ' 🎉',
+      id: '1',
+      body: msg,
+    });
+  } else {
+    PushNotification.localNotification({
+      channelId: 'test-channel',
+      title: title,
+      message: msg,
+    });
+  }
+};
 
 const updateWatchList = (state: StockState, payload: WatchListItem) => {
   const updatedItem = payload;
+  let price = updatedItem.currentValue + 900;
+
   const updatedWatchListForStockInfo = state.watchList.map(item => {
     if (item.symbol === updatedItem.symbol) {
+      price = item.price;
       return {...item, ...updatedItem};
     }
     return item;
   });
+  const existingIndex = state.watchList.findIndex(
+    item => item.symbol === updatedItem.symbol,
+  );
+
+  if (
+    price < updatedItem.currentValue &&
+    !updatedWatchListForStockInfo[existingIndex].wasNotified
+  ) {
+    showNotification(
+      'Watch Out At this!',
+      updatedItem.symbol + ' has passed the price you set up for watching',
+    );
+    updatedWatchListForStockInfo[existingIndex].wasNotified = true;
+  } else if (price == updatedItem.currentValue) {
+    showNotification(
+      'Watch Out At this!',
+      'Can you see the future? ' +
+        updatedItem.symbol +
+        ' has reached the price you set up for watching',
+    );
+    updatedWatchListForStockInfo[existingIndex].wasNotified = true;
+  }
   return {
     ...state,
     watchList: updatedWatchListForStockInfo,
   };
 };
-// import {StockAction} from '../actions/stockActions';
-// import {StockState, WatchListItem} from '../types/types';
-
-// export const stockReducer = (
-//   state: StockState,
-//   action: StockAction,
-// ): StockState => {
-//   switch (action.type) {
-//     case 'addMsg':
-//       return addMessage(state, action.payload);
-//     case 'removeMsg':
-//       return removeMessage(state);
-//     case 'addError':
-//       return addError(state, action.payload);
-//     case 'removeError':
-//       return removeError(state);
-//     case 'logout':
-//       return logout(state);
-//     case 'addToWatchList':
-//       return addToWatchList(state, action.payload);
-//     case 'updateStockInformation':
-//       return updateStockInformation(state, action.payload);
-//     case 'updatePrices':
-//       return updatePrices(state, action.payload);
-//     default:
-//       return state;
-//   }
-// };
-
-// const addMessage = (state: StockState, payload: string): StockState => ({
-//   ...state,
-//   message: payload,
-// });
-
-// const removeMessage = (state: StockState): StockState => ({
-//   ...state,
-//   message: '',
-// });
-
-// const addError = (state: StockState, payload: string): StockState => ({
-//   ...state,
-//   errorMessage: payload,
-// });
-
-// const removeError = (state: StockState): StockState => ({
-//   ...state,
-//   errorMessage: '',
-// });
-
-// const logout = (state: StockState): StockState => ({
-//   errorMessage: '',
-//   status: 'not-authenticated',
-//   message: '',
-//   watchList: [],
-// });
-
-// const addToWatchList = (
-//   state: StockState,
-//   payload: WatchListItem,
-// ): StockState => {
-//   const newItem = payload;
-//   const existingIndex = state.watchList.findIndex(
-//     item => item.symbol === newItem.symbol,
-//   );
-//   if (existingIndex === -1) {
-//     console.log('item added!');
-//     return {
-//       ...state,
-//       watchList: [...state.watchList, newItem],
-//     };
-//   } else {
-//     const updatedWatchList = [...state.watchList];
-//     updatedWatchList[existingIndex].price = newItem.price;
-//     console.log(
-//       'This item was already in your watchlist, we updated the price',
-//     );
-//     return {
-//       ...state,
-//       watchList: updatedWatchList,
-//     };
-//   }
-// };
-
-// const updateStockInformation = (
-//   state: StockState,
-//   payload: WatchListItem,
-// ): StockState => {
-//   const updatedItem = payload;
-//   const updatedWatchListForStockInfo = state.watchList.map(item => {
-//     if (item.symbol === updatedItem.symbol) {
-//       return {...item, ...updatedItem};
-//     }
-//     return item;
-//   });
-//   return {
-//     ...state,
-//     watchList: updatedWatchListForStockInfo,
-//   };
-// };
-
-// const updatePrices = (state: StockState, payload: any): StockState => {
-//   const {symbol, prices} = payload;
-//   const updatedWatchList = state.watchList.map(item => {
-//     if (item.symbol === symbol) {
-//       return {...item, history: prices};
-//     }
-//     return item;
-//   });
-//   return {
-//     ...state,
-//     watchList: updatedWatchList,
-//   };
-// };

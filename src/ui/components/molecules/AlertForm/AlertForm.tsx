@@ -1,44 +1,52 @@
 import React, {useContext, useEffect, useState} from 'react';
-import { View } from 'react-native';
-import { WatchListItem } from '../../../../data/store/types/types';
-import { AppContext } from '../../../../data/store/Context';
+import {Text, View} from 'react-native';
+import {WatchListItem} from '../../../../data/store/types/types';
+import {AppContext} from '../../../../data/store/Context';
 import AddAlertFormStyles from './AddAlertForm.style';
 import Input from '../../atoms/Inputs/Input';
 import defaultStrings from '../../../../localization/default';
-import { getnumericValueInputProps } from '../../../forms';
+import {getnumericValueInputProps} from '../../../forms';
 import CustomDropdown from '../../atoms/DropDown/DropDown';
 import CustomButton from '../../atoms/Button/Button';
 import InformationCard from '../InformationCard/InformationCard';
 import EmptyState from '../../atoms/EmptyState/EmptyState';
-
-const AlertForm = ({ symbols }: { symbols: any[] }) => {
+import alertStrings from '../../../../localization/alert';
+const AlertForm = ({symbols}: {symbols: any[]}) => {
   const [symbol, setSymbol] = useState<string | null>(null);
   const [price, setPrice] = useState<number | null>(0);
   const [priceInputError, setPriceInputError] = useState<string | null>(null);
   const [lastAdded, setLastAdded] = useState<WatchListItem | undefined>(undefined);
 
-  const { watchList, addToWatchList } = useContext(AppContext);
+  const {watchList, addToWatchList} = useContext(AppContext);
   const styles = AddAlertFormStyles;
   const isButtonDisabled = () => {
-    return symbol == null || (price ?? '').toString().length <= 0;
+    return (
+      symbol == null || (price ?? '').toString().length <= 0 || priceInputError
+    );
   };
+
   useEffect(() => {
-    setLastAdded(watchList.find(item => item.symbol === symbol?.toString() ?? ''));
+    setLastAdded(
+      watchList.find(item => item.symbol === symbol?.toString() ?? ''),
+    );
   }, [symbol, watchList]);
 
   const setAlert = () => {
     let item: WatchListItem = {
       price: price ?? 0,
       symbol: symbol?.toString() ?? '',
-      currentPercentage: 0,
+      marginPercentage: 0,
       currentValue: 0,
       history: [],
+      change: 0,
     };
     addToWatchList(item);
   };
   return (
     <View style={styles.screenContainer}>
       <View style={styles.subContainer}>
+        <Text style={styles.title}> {alertStrings.form.title}</Text>
+        <Text style={styles.description}> {alertStrings.form.description}</Text>
         <Input
           containerStyle={styles.smallMargin}
           value={price}
@@ -67,7 +75,7 @@ const AlertForm = ({ symbols }: { symbols: any[] }) => {
         {watchList.length > 0 && lastAdded ? (
           <InformationCard stock={lastAdded} />
         ) : (
-          <EmptyState text="You are not watching any price yet" />
+          <EmptyState text={alertStrings.form.empty} />
         )}
       </View>
     </View>

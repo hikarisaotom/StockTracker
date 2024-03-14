@@ -1,5 +1,5 @@
-import {StyleSheet} from 'react-native';
-import {DesignTokens} from '../../../theme';
+import { StyleSheet } from 'react-native';
+import { DesignTokens } from '../../../theme';
 
 const AddAlertFormStyles = StyleSheet.create({
   container: {
@@ -24,7 +24,20 @@ const AddAlertFormStyles = StyleSheet.create({
   },
   smallMargin: {
     marginBottom: DesignTokens.margin.mid,
-  }
+  },
+  title: {
+    color: DesignTokens.color.success,
+    textAlign: 'center',
+    marginBottom: DesignTokens.margin.sm,
+    fontWeight: '700',
+    fontSize: 20,
+  },
+  description: {
+    color: DesignTokens.color.white,
+    textAlign: 'justify',
+    marginBottom: DesignTokens.margin.mid,
+    fontSize: 15,
+  },
 });
 
 export default AddAlertFormStyles;

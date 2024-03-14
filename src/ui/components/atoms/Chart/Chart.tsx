@@ -88,7 +88,7 @@ const Chart = ({data}: chartCardProps) => {
         <LineChart
           data={getValidData()}
           withDots={false}
-          width={Dimensions.get('window').width * 0.9}
+          width={Dimensions.get('window').width * 0.75}
           height={300}
           chartConfig={chartConfig}
           bezier

@@ -17,8 +17,10 @@ export interface WatchListItem {
   symbol: string;
   price: number;
   currentValue: number;
-  currentPercentage: number;
+  marginPercentage: number;
+  change: number;
   history: TradeData[];
+  wasNotified: boolean | undefined;
 }
 
 export interface TradeData {
