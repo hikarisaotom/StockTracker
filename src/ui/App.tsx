@@ -3,7 +3,7 @@ import MainStackNavigator from '../navigation/MainStackNavigator';
 import {ContextProvider} from '../data/store/Context';
 import PushNotificationIOS from '@react-native-community/push-notification-ios';
 import PushNotification from 'react-native-push-notification';
-import { PermissionsAndroid } from 'react-native';
+import {PermissionsAndroid, Platform} from 'react-native';
 function App(): React.JSX.Element {
   const createChannel = () => {
     try {
@@ -20,7 +20,9 @@ function App(): React.JSX.Element {
     );
   };
   useEffect(() => {
-    createChannel();
+    if (Platform.OS === 'android') {
+      createChannel();
+    }
   }, []);
 
   return (

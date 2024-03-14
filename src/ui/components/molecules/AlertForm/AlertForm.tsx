@@ -1,5 +1,5 @@
 import React, {useContext, useEffect, useState} from 'react';
-import {View} from 'react-native';
+import {Platform, View} from 'react-native';
 import {WatchListItem} from '../../../../data/store/types/types';
 import {AppContext} from '../../../../data/store/Context';
 import AddAlertFormStyles from './AddAlertForm.style';
@@ -11,7 +11,7 @@ import CustomButton from '../../atoms/Button/Button';
 import InformationCard from '../InformationCard/InformationCard';
 import EmptyState from '../../atoms/EmptyState/EmptyState';
 import PushNotification from 'react-native-push-notification';
-
+import PushNotificationIOS from '@react-native-community/push-notification-ios';
 const AlertForm = ({symbols}: {symbols: any[]}) => {
   const [symbol, setSymbol] = useState<string | null>(null);
   const [price, setPrice] = useState<number | null>(0);
@@ -31,11 +31,20 @@ const AlertForm = ({symbols}: {symbols: any[]}) => {
   }, [symbol, watchList]);
 
   const setAlert = () => {
-    PushNotification.localNotification({
-      channelId: 'test-channel',
-      title: 'You got this!',
-      message: 'yeey!!!!!',
-    });
+    if (Platform.OS === 'ios') {
+      PushNotificationIOS.addNotificationRequest({
+        title: 'hola',
+        id: '1',
+        body: 'YOU GOT This',
+      });
+    } else {
+      PushNotification.localNotification({
+        channelId: 'test-channel',
+        title: 'You got this!',
+        message: 'yeey!!!!!',
+      });
+    }
+
     let item: WatchListItem = {
       price: price ?? 0,
       symbol: symbol?.toString() ?? '',
