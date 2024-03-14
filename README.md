@@ -2,6 +2,13 @@
 
 This application is built using React Native with TypeScript, adhering to a clean architecture and atomic design structure to ensure scalability and reusability in the future. It leverages the Finnhub API to provide real-time stock information 📈. Featuring multiple components designed to handle different aspects of the application, it emphasizes modularity and code reuse.
 
+## Code Version Strategy :octocat: 📚
+
+Git Flow was employed as a best programming practice for feature management, utilizing three entities: **`feature branches`**, the **`develop branch`**, and the **`main branch`**. 
+- Feature branches were used for work in progress.
+- Once the code was stable, a **`pull request`** was made to the **`develop branch`**, where the integration of new features was tested.
+- Finally, if the code was stable, a **`pull request`** was made to the **`main branch`**. The main branch always contains stable and final versions of the code.
+
 ## UX/UI📍
 
 User experience was a priority throughout the application's development. As a result, a common navigation model found in other applications and a data visualization similar to other stock trackers were used as design and implementation references. Additionally, the application features input validations, friendly messages, and empty states to inform users about the application's status clearly and concisely. Moreover, alerts and local notifications were implemented to indicate important actions promptly and effectively.
