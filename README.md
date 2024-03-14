@@ -2,9 +2,19 @@
 
 This application is built using React Native with TypeScript, adhering to a clean architecture and atomic design structure to ensure scalability and reusability in the future. It leverages the Finnhub API to provide real-time stock information 📈. Featuring multiple components designed to handle different aspects of the application, it emphasizes modularity and code reuse.
 
+## UX/UI📍
+
+User experience was a priority throughout the application's development. As a result, a common navigation model found in other applications and a data visualization similar to other stock trackers were used as design and implementation references. Additionally, the application features input validations, friendly messages, and empty states to inform users about the application's status clearly and concisely. Moreover, alerts and local notifications were implemented to indicate important actions promptly and effectively.
+
+## Local Push Notifications and Alerts 📲
+
+The application sends local push notifications when the price set for an alert is passed, only one notification will be sent to not annoy the user by sending multiple notifications at once. If the user updates the price for a previously added symbol, even if the user was updated for the old price, a new notification will be sent to notify for the current price.
+
+On the other hand, if a price set for an alert was already reached and the user was already notified, this information will also be displayed in the price tracker component.
+
 ## Demo 🚀
 
-You can download the [APK]() here or see a demo for [iOS]() and [Android]().
+You can see a demo for [iOS](https://drive.google.com/drive/folders/118Sbh8K6SoOkfRzAN4bfWAfHzOmHcGVI?usp=sharing) and [Android](https://drive.google.com/drive/folders/1Q8ZZHtJKakiKPHkupyLH7u09bSSKe0f3?usp=sharing), or download both from this repository in the file `demos.zip`
 
 ## Application Structure 🏗️
 
@@ -25,6 +35,8 @@ The Stocks App is structured into several key components, each responsible for a
 - **Charts**: `react-native-svg-charts` Simple yet flexible JavaScript charting for developers.
 - **Notifications**: `react-native-push-notification` and `@react-native-community/push-notification-ios` to support local notifications sent by the application when the price is reached.
 
+- **Security**: To ensure security for sensitive information, a model using environment variables was adopted.
+ 
 ## Development Dependencies 🔧
 
 - **@babel/core**: ^7.20.0
@@ -63,12 +75,6 @@ The application tracks the following stocks:
 - TSLA 🚗
 
 >**Note**: Due to some lack of information in all the stocks coming from the Finnhub API, not all the symbols are being listed on the main dropdown component, although, the request to populate the dropdown with that information was designed and included and was left commented into the document for reference purposes.
-
-## Local Push Notifications and Alerts 📲
-
-The application sends local push notifications when the price set for an alert is passed, only one notification will be sent to not annoy the user by sending multiple notifications at once. If the user updates the price for a previously added symbol, even if the user was updated for the old price, a new notification will be sent to notify for the current price.
-
-On the other hand, if a price set for an alert was already reached and the user was already notified, this information will also be displayed in the price tracker component.
 
 ## HOW TO RUN 💻
 
