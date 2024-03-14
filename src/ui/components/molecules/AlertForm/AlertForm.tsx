@@ -10,15 +10,13 @@ import CustomDropdown from '../../atoms/DropDown/DropDown';
 import CustomButton from '../../atoms/Button/Button';
 import InformationCard from '../InformationCard/InformationCard';
 import EmptyState from '../../atoms/EmptyState/EmptyState';
-import PushNotification from 'react-native-push-notification';
-import PushNotificationIOS from '@react-native-community/push-notification-ios';
 const AlertForm = ({symbols}: {symbols: any[]}) => {
   const [symbol, setSymbol] = useState<string | null>(null);
   const [price, setPrice] = useState<number | null>(0);
   const [priceInputError, setPriceInputError] = useState<string | null>(null);
   const [lastAdded, setLastAdded] = useState<WatchListItem | undefined>(undefined);
 
-  const { watchList, addToWatchList } = useContext(AppContext);
+  const {watchList, addToWatchList} = useContext(AppContext);
   const styles = AddAlertFormStyles;
   const isButtonDisabled = () => {
     return symbol == null || (price ?? '').toString().length <= 0;
@@ -31,26 +29,13 @@ const AlertForm = ({symbols}: {symbols: any[]}) => {
   }, [symbol, watchList]);
 
   const setAlert = () => {
-    if (Platform.OS === 'ios') {
-      PushNotificationIOS.addNotificationRequest({
-        title: 'hola',
-        id: '1',
-        body: 'YOU GOT This',
-      });
-    } else {
-      PushNotification.localNotification({
-        channelId: 'test-channel',
-        title: 'You got this!',
-        message: 'yeey!!!!!',
-      });
-    }
-
     let item: WatchListItem = {
       price: price ?? 0,
       symbol: symbol?.toString() ?? '',
-      currentPercentage: 0,
+      marginPercentage: 0,
       currentValue: 0,
       history: [],
+      change: 0,
     };
     addToWatchList(item);
   };

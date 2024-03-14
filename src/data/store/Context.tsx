@@ -9,6 +9,9 @@ import {
 } from './types/types';
 import { StockReducer } from './reducers/stockReducer';
 import { API_KEY } from 'react-native-dotenv';
+import PushNotification from 'react-native-push-notification';
+import PushNotificationIOS from '@react-native-community/push-notification-ios';
+import { Platform } from 'react-native';
 
 const initialState: StockState = {
   status: 'not-authenticated',
@@ -100,18 +103,21 @@ export const ContextProvider = ({ children }: any) => {
           const lastPercentageChange: number =
             ((lastPrice - penultimatePrice) / penultimatePrice) * 100;
           const foundItem = state.watchList.find(item => item.symbol === data?.data[0]?.s);
+          const lastChange: number = lastPrice - penultimatePrice;
           const newItem: WatchListItem = {
             symbol: data?.data[0]?.s ?? '',
-            price: foundItem ? foundItem.price : 0,
+            //price: foundItem ? foundItem.price : 0,
             currentValue: data?.data[0]?.p ?? 0,
-            currentPercentage: lastPercentageChange,
+            marginPercentage: lastPercentageChange,
             history: data?.data,
+            change: lastChange,
           };
           updateWatchItem(newItem);
         }
       }
     } //if
   };
+
   // Debounce the subscribe function to limit the frequency of requests
   useDebouncedEffect(
     () => {
