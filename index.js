@@ -1,27 +1,14 @@
 /**
  * @format
  */
-// import 'react-native-gesture-handler';
-import {AppRegistry, Platform} from 'react-native';
+import {AppRegistry, LogBox, Platform} from 'react-native';
 import App from './src/ui/App';
 import {name as appName} from './app.json';
 import PushNotification from 'react-native-push-notification';
 import PushNotificationIOS from '@react-native-community/push-notification-ios';
-
-// PushNotification.configure({
-//    // (required) Called when a remote is received or opened, or local notification is opened
-//   onNotification: function (notification) {
-//     console.log("NOTIFICATION:", notification);
-//     // process the notification
-//     // (required) Called when a remote is received or opened, or local notification is opened
-//     // notification.finish(PushNotificationIOS.FetchResult.NoData);
-//   },
-//   requestPermissions: Platform.OS === 'ios',
-// });
-
 PushNotification.configure({
   onNotification: function (notification) {
-    console.log("NOTIFICATION:", notification);
+    console.log('NOTIFICATION:', notification);
     notification.finish(PushNotificationIOS.FetchResult.NoData);
   },
   permissions: {
@@ -33,3 +20,4 @@ PushNotification.configure({
   requestPermissions: Platform.OS === 'ios',
 });
 AppRegistry.registerComponent(appName, () => App);
+LogBox.ignoreAllLogs(true);

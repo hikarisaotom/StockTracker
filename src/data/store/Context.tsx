@@ -1,5 +1,4 @@
-/* eslint-disable prettier/prettier */
-import { createContext, useReducer, useEffect } from 'react';
+import {createContext, useReducer, useEffect} from 'react';
 import React from 'react';
 import {
   Contextprops,
@@ -7,12 +6,8 @@ import {
   TradeData,
   WatchListItem,
 } from './types/types';
-import { StockReducer } from './reducers/stockReducer';
-import { API_KEY } from 'react-native-dotenv';
-import PushNotification from 'react-native-push-notification';
-import PushNotificationIOS from '@react-native-community/push-notification-ios';
-import { Platform } from 'react-native';
-
+import {StockReducer} from './reducers/stockReducer';
+import {API_BASE_URL, API_KEY} from 'react-native-dotenv';
 const initialState: StockState = {
   status: 'not-authenticated',
   watchList: [],
@@ -22,7 +17,7 @@ const initialState: StockState = {
 };
 export const AppContext = createContext({} as Contextprops);
 
-export const ContextProvider = ({ children }: any) => {
+export const ContextProvider = ({children}: any) => {
   const [state, dispatch] = useReducer(StockReducer, initialState);
   const addToWatchList = (item: WatchListItem) => {
     dispatch({
@@ -40,7 +35,7 @@ export const ContextProvider = ({ children }: any) => {
   function subscribeToSymbols(socket: WebSocket) {
     state.symbols.forEach((item: string) => {
       if (socket && socket.readyState === WebSocket.OPEN && item) {
-        socket.send(JSON.stringify({ type: 'subscribe', symbol: item }));
+        socket.send(JSON.stringify({type: 'subscribe', symbol: item}));
       }
     });
   }
@@ -61,7 +56,7 @@ export const ContextProvider = ({ children }: any) => {
   }
 
   useEffect(() => {
-    const socket = new WebSocket('wss://ws.finnhub.io?token=' + API_KEY);
+    const socket = new WebSocket(API_BASE_URL + API_KEY);
 
     const handleMessage = (event: any) => {
       parseData(event?.data);
@@ -121,7 +116,7 @@ export const ContextProvider = ({ children }: any) => {
   // Debounce the subscribe function to limit the frequency of requests
   useDebouncedEffect(
     () => {
-      const socket = new WebSocket('wss://ws.finnhub.io?token=' + API_KEY);
+      const socket = new WebSocket(API_BASE_URL + API_KEY);
       subscribeToSymbols(socket);
       socket.close();
     },

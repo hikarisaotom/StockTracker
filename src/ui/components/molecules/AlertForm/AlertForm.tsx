@@ -1,5 +1,5 @@
 import React, {useContext, useEffect, useState} from 'react';
-import {Platform, View} from 'react-native';
+import {Text, View} from 'react-native';
 import {WatchListItem} from '../../../../data/store/types/types';
 import {AppContext} from '../../../../data/store/Context';
 import AddAlertFormStyles from './AddAlertForm.style';
@@ -10,6 +10,7 @@ import CustomDropdown from '../../atoms/DropDown/DropDown';
 import CustomButton from '../../atoms/Button/Button';
 import InformationCard from '../InformationCard/InformationCard';
 import EmptyState from '../../atoms/EmptyState/EmptyState';
+import alertStrings from '../../../../localization/alert';
 const AlertForm = ({symbols}: {symbols: any[]}) => {
   const [symbol, setSymbol] = useState<string | null>(null);
   const [price, setPrice] = useState<number | null>(0);
@@ -19,7 +20,9 @@ const AlertForm = ({symbols}: {symbols: any[]}) => {
   const {watchList, addToWatchList} = useContext(AppContext);
   const styles = AddAlertFormStyles;
   const isButtonDisabled = () => {
-    return symbol == null || (price ?? '').toString().length <= 0;
+    return (
+      symbol == null || (price ?? '').toString().length <= 0 || priceInputError
+    );
   };
 
   useEffect(() => {
@@ -42,6 +45,8 @@ const AlertForm = ({symbols}: {symbols: any[]}) => {
   return (
     <View style={styles.screenContainer}>
       <View style={styles.subContainer}>
+        <Text style={styles.title}> {alertStrings.form.title}</Text>
+        <Text style={styles.description}> {alertStrings.form.description}</Text>
         <Input
           containerStyle={styles.smallMargin}
           value={price}
@@ -70,7 +75,7 @@ const AlertForm = ({symbols}: {symbols: any[]}) => {
         {watchList.length > 0 && lastAdded ? (
           <InformationCard stock={lastAdded} />
         ) : (
-          <EmptyState text="You are not watching any price yet" />
+          <EmptyState text={alertStrings.form.empty} />
         )}
       </View>
     </View>
