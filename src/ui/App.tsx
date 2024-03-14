@@ -1,7 +1,6 @@
 import React, {useEffect} from 'react';
 import MainStackNavigator from '../navigation/MainStackNavigator';
 import {ContextProvider} from '../data/store/Context';
-import PushNotificationIOS from '@react-native-community/push-notification-ios';
 import PushNotification from 'react-native-push-notification';
 import {PermissionsAndroid, Platform} from 'react-native';
 function App(): React.JSX.Element {

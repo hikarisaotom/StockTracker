@@ -1,12 +1,10 @@
-// import {NotificationsTypes} from '../../enums/Notification';
-// import {NotificationsDispatcher} from '../../utils/notifications/NotificationDispatcher';
-
-import { Platform } from 'react-native';
+import {Platform} from 'react-native';
 import {StockAction} from '../actions/stockActions';
 import {StockState, WatchListItem} from '../types/types';
 import PushNotificationIOS from '@react-native-community/push-notification-ios';
 import PushNotification from 'react-native-push-notification';
-
+import Toast from 'react-native-simple-toast';
+import { DesignTokens } from '../../../ui/theme';
 export const StockReducer = (
   state: StockState,
   action: StockAction,
@@ -53,11 +51,12 @@ export const StockReducer = (
 };
 
 const showMessage = (msg: string) => {
-  //   NotificationsDispatcher({
-  //     notificationType: NotificationsTypes.message,
-  //     bodyText: msg,
-  //   });
-  console.log(msg);
+
+  Toast.show(msg, Toast.LONG, {
+    tapToDismissEnabled: true,
+    backgroundColor: DesignTokens.color.success,
+    textColor: DesignTokens.color.black,
+  });
 };
 
 const addToWatchList = (state: StockState, payload: WatchListItem) => {
