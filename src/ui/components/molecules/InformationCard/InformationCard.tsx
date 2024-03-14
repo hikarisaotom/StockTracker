@@ -49,9 +49,15 @@ const InformationCard = ({stock}: informationCardProps) => {
       </View>
       <View>
         <Text style={styles.alertPrice}>
-          {' '}
-          {defaultStrings.price.default}
+          {defaultStrings.price.default + ': $'}
           <Text style={styles.alertPriceValue}> {price}</Text>
+        </Text>
+        <Text
+          style={[
+            styles.alertPrice,
+            stock.wasNotified ? styles.greenText : styles.alertPriceValue,
+          ]}>
+          {stock.wasNotified ? '(reached)' : '(Not reached yet)'}
         </Text>
       </View>
     </View>
