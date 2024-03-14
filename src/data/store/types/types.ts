@@ -20,6 +20,7 @@ export interface WatchListItem {
   marginPercentage: number;
   change: number;
   history: TradeData[];
+  wasNotified: boolean | undefined;
 }
 
 export interface TradeData {

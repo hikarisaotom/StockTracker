@@ -4,7 +4,7 @@ import {StockState, WatchListItem} from '../types/types';
 import PushNotificationIOS from '@react-native-community/push-notification-ios';
 import PushNotification from 'react-native-push-notification';
 import Toast from 'react-native-simple-toast';
-import { DesignTokens } from '../../../ui/theme';
+import {DesignTokens} from '../../../ui/theme';
 export const StockReducer = (
   state: StockState,
   action: StockAction,
@@ -51,7 +51,6 @@ export const StockReducer = (
 };
 
 const showMessage = (msg: string) => {
-
   Toast.show(msg, Toast.LONG, {
     tapToDismissEnabled: true,
     backgroundColor: DesignTokens.color.success,
@@ -65,7 +64,8 @@ const addToWatchList = (state: StockState, payload: WatchListItem) => {
     item => item.symbol === newItem.symbol,
   );
   if (existingIndex === -1) {
-    showMessage('item added' + newItem.symbol);
+    showMessage('Price alert for ' + newItem.symbol + ' added');
+    newItem.wasNotified = false;
     return {
       ...state,
       watchList: [...state.watchList, newItem],
@@ -74,18 +74,22 @@ const addToWatchList = (state: StockState, payload: WatchListItem) => {
   } else {
     const updatedWatchList = [...state.watchList];
     updatedWatchList[existingIndex].price = newItem.price;
-    showMessage('This item was already in your watchlit, we updated the price');
-    if (newItem.price < newItem.currentValue) {
+    updatedWatchList[existingIndex].wasNotified = false;
+    showMessage(newItem.symbol + " 's price alert updated");
+    if (
+      newItem.price < newItem.currentValue &&
+      !updatedWatchList[existingIndex].wasNotified
+    ) {
       showNotification(
         'Watch Out At this!',
         newItem.symbol + ' has passed the price you set up for watching',
       );
+      updatedWatchList[existingIndex].wasNotified = true;
     } else if (newItem.price == newItem.currentValue) {
+      updatedWatchList[existingIndex].wasNotified = true;
       showNotification(
-        'Watch Out At this!',
-        'Can you see the future? ' +
-          newItem.symbol +
-          ' has reached the price you set up for watching',
+        'Can you see the future?',
+        newItem.symbol + ' has reached the price you set up for watching',
       );
     }
     return {
@@ -97,7 +101,7 @@ const addToWatchList = (state: StockState, payload: WatchListItem) => {
 const showNotification = (title: string, msg: string) => {
   if (Platform.OS === 'ios') {
     PushNotificationIOS.addNotificationRequest({
-      title: title,
+      title: '🎉' + title + ' 🎉',
       id: '1',
       body: msg,
     });
@@ -112,7 +116,8 @@ const showNotification = (title: string, msg: string) => {
 
 const updateWatchList = (state: StockState, payload: WatchListItem) => {
   const updatedItem = payload;
-  let price = updatedItem.currentValue;
+  let price = updatedItem.currentValue + 900;
+
   const updatedWatchListForStockInfo = state.watchList.map(item => {
     if (item.symbol === updatedItem.symbol) {
       price = item.price;
@@ -120,12 +125,19 @@ const updateWatchList = (state: StockState, payload: WatchListItem) => {
     }
     return item;
   });
+  const existingIndex = state.watchList.findIndex(
+    item => item.symbol === updatedItem.symbol,
+  );
 
-  if (price < updatedItem.currentValue) {
+  if (
+    price < updatedItem.currentValue &&
+    !updatedWatchListForStockInfo[existingIndex].wasNotified
+  ) {
     showNotification(
       'Watch Out At this!',
       updatedItem.symbol + ' has passed the price you set up for watching',
     );
+    updatedWatchListForStockInfo[existingIndex].wasNotified = true;
   } else if (price == updatedItem.currentValue) {
     showNotification(
       'Watch Out At this!',
@@ -133,6 +145,7 @@ const updateWatchList = (state: StockState, payload: WatchListItem) => {
         updatedItem.symbol +
         ' has reached the price you set up for watching',
     );
+    updatedWatchListForStockInfo[existingIndex].wasNotified = true;
   }
   return {
     ...state,
