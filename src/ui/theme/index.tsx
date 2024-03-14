@@ -3,7 +3,7 @@ export const DesignTokens = {
     black: 'black',
     primary: '#FFFFFF',
     white: 'white',
-    error: '#D8615F',
+    error: 'red',
     success: '#2AC659',
     disabled: '#A5A5A5',
     warning: '#efd52e',

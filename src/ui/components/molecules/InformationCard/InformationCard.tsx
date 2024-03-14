@@ -9,7 +9,7 @@ interface informationCardProps {
   stock: WatchListItem;
 }
 const InformationCard = ({stock}: informationCardProps) => {
-  let {symbol, price, currentValue, currentPercentage: change} = stock;
+  let {symbol, price, currentValue, marginPercentage, change} = stock;
   const styles = informationCardStyles;
   return (
     <View
@@ -34,7 +34,10 @@ const InformationCard = ({stock}: informationCardProps) => {
             styles.stockText,
             change >= 0 ? styles.greenText : styles.redText,
           ]}>
-          {Math.abs(change) < 1 ? change.toFixed(4) : change.toFixed(2)}%
+          {Math.abs(marginPercentage) < 1
+            ? change.toFixed(4)
+            : change.toFixed(2)}
+          %
         </Text>
         <Text
           style={[
@@ -46,9 +49,15 @@ const InformationCard = ({stock}: informationCardProps) => {
       </View>
       <View>
         <Text style={styles.alertPrice}>
-          {' '}
-          {defaultStrings.price.default}
+          {defaultStrings.price.default + ': $'}
           <Text style={styles.alertPriceValue}> {price}</Text>
+        </Text>
+        <Text
+          style={[
+            styles.alertPrice,
+            stock.wasNotified ? styles.greenText : styles.alertPriceValue,
+          ]}>
+          {stock.wasNotified ? '(reached)' : '(Not reached yet)'}
         </Text>
       </View>
     </View>

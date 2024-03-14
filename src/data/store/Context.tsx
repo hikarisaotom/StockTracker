@@ -1,5 +1,4 @@
-/* eslint-disable prettier/prettier */
-import { createContext, useReducer, useEffect } from 'react';
+import {createContext, useReducer, useEffect} from 'react';
 import React from 'react';
 import {
   Contextprops,
@@ -7,9 +6,8 @@ import {
   TradeData,
   WatchListItem,
 } from './types/types';
-import { StockReducer } from './reducers/stockReducer';
-import { API_KEY } from 'react-native-dotenv';
-
+import {StockReducer} from './reducers/stockReducer';
+import {API_BASE_URL, API_KEY} from 'react-native-dotenv';
 const initialState: StockState = {
   status: 'not-authenticated',
   watchList: [],
@@ -19,7 +17,7 @@ const initialState: StockState = {
 };
 export const AppContext = createContext({} as Contextprops);
 
-export const ContextProvider = ({ children }: any) => {
+export const ContextProvider = ({children}: any) => {
   const [state, dispatch] = useReducer(StockReducer, initialState);
   const addToWatchList = (item: WatchListItem) => {
     dispatch({
@@ -37,7 +35,7 @@ export const ContextProvider = ({ children }: any) => {
   function subscribeToSymbols(socket: WebSocket) {
     state.symbols.forEach((item: string) => {
       if (socket && socket.readyState === WebSocket.OPEN && item) {
-        socket.send(JSON.stringify({ type: 'subscribe', symbol: item }));
+        socket.send(JSON.stringify({type: 'subscribe', symbol: item}));
       }
     });
   }
@@ -58,7 +56,7 @@ export const ContextProvider = ({ children }: any) => {
   }
 
   useEffect(() => {
-    const socket = new WebSocket('wss://ws.finnhub.io?token=' + API_KEY);
+    const socket = new WebSocket(API_BASE_URL + API_KEY);
 
     const handleMessage = (event: any) => {
       parseData(event?.data);
@@ -100,22 +98,25 @@ export const ContextProvider = ({ children }: any) => {
           const lastPercentageChange: number =
             ((lastPrice - penultimatePrice) / penultimatePrice) * 100;
           const foundItem = state.watchList.find(item => item.symbol === data?.data[0]?.s);
+          const lastChange: number = lastPrice - penultimatePrice;
           const newItem: WatchListItem = {
             symbol: data?.data[0]?.s ?? '',
-            price: foundItem ? foundItem.price : 0,
+            //price: foundItem ? foundItem.price : 0,
             currentValue: data?.data[0]?.p ?? 0,
-            currentPercentage: lastPercentageChange,
+            marginPercentage: lastPercentageChange,
             history: data?.data,
+            change: lastChange,
           };
           updateWatchItem(newItem);
         }
       }
     } //if
   };
+
   // Debounce the subscribe function to limit the frequency of requests
   useDebouncedEffect(
     () => {
-      const socket = new WebSocket('wss://ws.finnhub.io?token=' + API_KEY);
+      const socket = new WebSocket(API_BASE_URL + API_KEY);
       subscribeToSymbols(socket);
       socket.close();
     },

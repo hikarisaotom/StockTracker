@@ -54,6 +54,7 @@ export const informationCardStyles = StyleSheet.create({
   },
   rowContainer: {
     flexDirection: 'row',
+    flexWrap: 'wrap',
     justifyContent: 'space-between',
     alignItems: 'center',
   },
